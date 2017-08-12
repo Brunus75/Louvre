@@ -1,5 +1,5 @@
 louvre_reservation:
-    resource: "@LouvreReservationBundle/Controller"
+    resource: "@LouvreReservationBundle/Controller/ReservationController.php"
     type:     annotation
     prefix:   /
 
