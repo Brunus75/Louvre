@@ -1,0 +1,24 @@
+{% extends "@LouvreReservation/base.html.twig" %}
+
+{% block title %}Réservation - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="container main-container">
+        {% include "@LouvreReservation/inc/title.html.twig" %}
+        <div id="reservation">
+            <div class="row">
+                <div class="col-xs-12 col-sm-3">
+                    {% include "@LouvreReservation/inc/prix.html.twig" %}
+                </div>
+
+                <noscript>
+                    <div class="col-xs-12 col-sm-3">
+                        <div class="alert alert-warning text-justify">
+                                Merci d'installer et/ou d'activer Cher visiteur, le langage JavaScript sur votre navigateur. Le système de réservation du musée du Louvre fonctionne grâce à ce langage.
+                        </div>
+                    </div>
+                </noscript>
+            </div>
+        </div>
+    </div>
+{% endblock %}

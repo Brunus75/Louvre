@@ -34,7 +34,7 @@ class ReservationController extends Controller
             return $this->redirectToRoute('information');
         }
 
-        return $this->render('Reservation/index.html.twig', array(
+        return $this->render('LouvreReservationBundle:Reservation:index.html.twig', array(
             'form' => $form->createView(),
         ));
     }

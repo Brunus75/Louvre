@@ -1,0 +1,28 @@
+{% extends "@LouvreReservation/base.html.twig" %}
+
+{% block title %}Vos informations{% endblock %}
+
+{% block body %}
+    <div class="container main-container">
+        {% include "@LouvreReservation/inc/title.html.twig" %}
+
+        <div id="reservation">
+            <div class="row">
+                <div class="col-xs-12 col-sm-3">
+                    {% include "@LouvreReservation/inc/prix.html.twig" %}
+                </div>
+
+
+
+                <div class="col-xs-12 col-sm-3">
+                    <div class="summary">
+                        <h4><span class="glyphicon glyphicon-shopping-cart"></span> Votre réservation</h4>
+                        <p>Date de votre réservation : {{ app.session.get('reservation').date|date('d/m/Y') }}</p>
+                        <p>Type de billetn: {{ app.session.get('reservation').type }}</p>
+                        <p>Nombre de billets : {{ app.session.get('reservation').numeroTickets }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

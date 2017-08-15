@@ -1,0 +1,148 @@
+/***************\
+     GLOBAL
+\***************/
+body {
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+a.toHomepage { text-decoration: none; }
+
+.row {
+    margin: 0;
+}
+
+/* Tarifs container */
+.Tarifs-container {
+    background-color: #2d3458;
+    color: #b5c8d0;
+    padding: 5px 15px;
+}
+
+.Prix-container h3 { margin-top: 0; }
+
+.Prix-container dl {
+    font-size: .9em;
+}
+
+.summary {
+    background-color: #4e4e4e;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+.summary p {
+    font-weight: 200;
+}
+
+/* Website header */
+.website-logo { width: 230px; }
+
+/* Allows sticky footer */
+.main-container { flex: 1 0 0; }
+
+.form-buttons { margin-top: 10px; }
+.continuer-button {
+    background-color: #4e4e4e;
+    color: #fff;
+}
+
+.go-back {
+    background-color: #c82d00;
+    color: #fff;
+}
+
+.go-back:hover {
+    color: #fff;
+}
+
+/* Aside */
+aside h3 { margin: 0 0 5px 0; }
+
+.info-clients { display: none; }
+.info-reservation { cursor: pointer; }
+
+/***************\
+    FIRST PAGE
+\***************/
+
+/* reservation form */
+.reservation-form { padding: 0 15px; }
+
+/* Discount conditions */
+.conditions {
+    font-weight:bold;
+    color: #C9C9C9;
+}
+.conditions:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    color: #4d67ff;
+}
+
+.modal-content {
+    color: #333;
+}
+
+/***************\
+   SECOND PAGE
+\***************/
+
+/***************\
+   PAYMENT PAGE
+\***************/
+
+
+/***************\
+   Success Page
+\***************/
+.success-page {
+    background-image: url('../images/Louvre-1.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    justify-content: center;
+
+    min-height: 100vh;
+}
+
+.frame {
+    background-color: #333;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 10px 30px 10px;
+}
+
+/***************\
+     FOOTER
+\***************/
+footer {
+    background-color: #4d67ff;
+    padding: 10px 0;
+}
+
+footer p {
+    color: #fff;
+    font-weight: 300;
+    margin: 10px 0;
+}
+
+/***************\
+  MEDIA QUERIES
+\***************/
+@media (max-width: 750px) {
+    .Prix-container {
+        margin-bottom: 30px;
+    }
+
+    .summary {
+        margin: 30px 0;
+    }
+}
