@@ -43,7 +43,9 @@ class Client
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="anniversaire", type="datetime")
+     * @ORM\Column(name="anniversaire", type="date")
+     * @Assert\Date()
+     * @BirthdayCheck()
      */
     private $anniversaire;
 
@@ -51,8 +53,16 @@ class Client
      * @var string
      *
      * @ORM\Column(name="pays", type="string", length=255)
+     * @Assert\Pays()
      */
     private $pays;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255)
+     */
+    private $type;
 
     /**
      * @var bool
@@ -62,9 +72,20 @@ class Client
     private $promo;
 
     /**
-     * @var integer;
+     * @var string
+     *
+     * @ORM\Column(name="price", type="decimal", precision=10, scale=2)
      */
     private $prix;
+
+    /**
+     * Constructeur
+     */
+    public function __construct()
+    {
+        $this->reduit      = false;
+        $this->type         = 'NORMAL';
+    }
 
 
     /**
@@ -80,11 +101,11 @@ class Client
     /**
      * Set reservation
      *
-     * @param integer $reservation
+     * @param \Louvre\ReservationBundle\Entity\Reservation
      *
      * @return Client
      */
-    public function setReservation($reservation)
+    public function setReservation(\Louvre\ReservationBundle\Entity\Reservation $reservation)
     {
         $this->reservation = $reservation;
 
@@ -94,7 +115,7 @@ class Client
     /**
      * Get reservation
      *
-     * @return int
+     * @return \Louvre\ReservationBundle\Entity\Reservation
      */
     public function getReservation()
     {
@@ -110,7 +131,7 @@ class Client
      */
     public function setPrenom($prenom)
     {
-        $this->prenom = $prenom;
+        $this->prenom = strtolower($prenom);
 
         return $this;
     }
@@ -134,7 +155,7 @@ class Client
      */
     public function setNom($nom)
     {
-        $this->nom = $nom;
+        $this->nom = strtolower($nom);
 
         return $this;
     }
@@ -221,7 +242,13 @@ class Client
         return $this->promo;
     }
 
-
+    /**
+     * Set prix
+     *
+     * @param string $price
+     *
+     * @return Client
+     */
     public function setPrix($prix)
     {
         $this->prix = $prix;
@@ -229,10 +256,48 @@ class Client
         return $this;
     }
 
-
+    /**
+     * Get prix
+     *
+     * @return string
+     */
     public function getPrix()
     {
         return $this->prix;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Client
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Récupére l'age du visiteur
+     *
+     * @return int
+     */
+    public function getAge()
+    {
+        return $this->getAnniversaire()->diff(new \DateTime())->y;
     }
 }
 

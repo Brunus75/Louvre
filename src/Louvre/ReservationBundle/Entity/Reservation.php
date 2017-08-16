@@ -2,13 +2,17 @@
 
 namespace Louvre\ReservationBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Louvre\ReservationBundle\Validator\OrderCheck;
 
 /**
  * Reservation
  *
  * @ORM\Table(name="reservation")
  * @ORM\Entity(repositoryClass="Louvre\ReservationBundle\Repository\ReservationRepository")
+ * @OrderCheck()
  */
 class Reservation
 {
@@ -29,18 +33,27 @@ class Reservation
     private $nomReservation;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     * @Assert\Email()
+     */
+    private $email;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="fullDay", type="boolean")
+     */
+    private $jourEntier = true;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255, nullable=true)
-     */
-    private $type;
 
     /**
      * @var int
@@ -52,7 +65,8 @@ class Reservation
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateReservation", type="datetime")
+     * @ORM\Column(name="dateReservation", type="date")
+     * @Assert\NotBlank(message="entry_date.blank")
      */
     private $dateReservation;
 
@@ -64,10 +78,20 @@ class Reservation
     private $numeroReservation;
 
     /**
-     * @ORM\OneToMany(targetEntity="Client", mappedBy="reservation", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Louvre\ReservationBundle\Entity\Client", mappedBy="reservation", cascade={"persist", "remove"})
+     * @Assert\Valid()
      */
     private $clients;
 
+    /**
+     * Constructeur
+     */
+    public function __construct()
+    {
+        $this->date  = new \DateTime();
+        $this->nomReservation         = strtoupper(uniqid('LOUVRE'));
+        $this->clients     = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -88,7 +112,7 @@ class Reservation
      */
     public function setNomReservation($nomReservation)
     {
-        $this->nomReservation = $nomReservation;
+        $this->nomReservation = strtolower($nomReservation);
 
         return $this;
     }
@@ -101,6 +125,54 @@ class Reservation
     public function getNomReservation()
     {
         return $this->nomReservation;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return Reservation
+     */
+    public function setEmail($email)
+    {
+        $this->email = strtolower($email);
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set jourEntier
+     *
+     * @param boolean $fullDay
+     *
+     * @return Reservation
+     */
+    public function setJourEntier($jourEntier)
+    {
+        $this->jourEntier = $jourEntier;
+
+        return $this;
+    }
+
+    /**
+     * Get jourEntier
+     *
+     * @return bool
+     */
+    public function getJourEntier()
+    {
+        return (bool) $this->jourEntier;
     }
 
     /**
@@ -125,30 +197,6 @@ class Reservation
     public function getDate()
     {
         return $this->date;
-    }
-
-    /**
-     * Set type
-     *
-     * @param string $type
-     *
-     * @return Reservation
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
     }
 
     /**
@@ -221,6 +269,67 @@ class Reservation
     public function getNumeroReservation()
     {
         return $this->numeroReservation;
+    }
+
+    /**
+     * Add client
+     *
+     * @param \Louvre\ReservationBundle\Entity\Client $client
+     *
+     * @return Reservation
+     */
+    public function addClient(\Louvre\ReservationBundle\Entity\Client $client)
+    {
+        $this->clients[] = $client;
+        $client->setReservation($this);
+        return $this;
+    }
+
+    /**
+     * Remove client
+     *
+     * @param \Louvre\ReservationBundle\Entity\Client $client
+     */
+    public function removeClient(\Louvre\ReservationBundle\Entity\Client $client)
+    {
+        $this->clients->removeElement($client);
+    }
+
+    /**
+     * Get clients
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getClients()
+    {
+        return $this->clients;
+    }
+
+    /**
+     * Récupération du nombre de tickets
+     *
+     * @return int
+     */
+    public function getCountClients()
+    {
+        return count($this->clients);
+    }
+
+    /**
+     * Calcule le montant total de la commande
+     *
+     * @return int
+     */
+    public function getTotalPrix()
+    {
+        $visitors = $this->getClients();
+        $total = 0;
+
+        foreach($clients as $client){
+            $total = $total + $client->getPrix();
+        }
+
+        return $total;
     }
 }
 
