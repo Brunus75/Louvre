@@ -3,10 +3,10 @@
 namespace Louvre\ReservationBundle\Controller;
 
 use Louvre\ReservationBundle\Entity\Client;
-#use Louvre\ReservationBundle\Form\InfoStepType;
+use Louvre\ReservationBundle\Form\InfoStepType;
 use Symfony\Component\HttpFoundation\Request;
 use Louvre\ReservationBundle\Entity\Reservation;
-#use Louvre\ReservationBundle\Form\ReservationType;
+use Louvre\ReservationBundle\Form\ReservationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -60,10 +60,81 @@ class ReservationController extends Controller
             return $this->redirectToRoute('payment');
         }
 
-        return $this->render('Reservation/information.html.twig', array(
+        return $this->render('LouvreReservationBundle:Reservation:information.html.twig', array(
             'form' => $form->createView(),
         ));
     }
 
+    /**
+     * @Route("/payment", name="payment")
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function paymentAction()
+    {
+        $reservation = $this->get('session')->get('reservation');
+        $prix = $this->get('louvre_reservation_prixmanager')->calculate($reservation);
+        $this->get('session')->set('prix', $prix);
 
+        return $this->render('LouvreReservationBundle:Reservation:payment.html.twig', array(
+            'reservation' => $reservation,
+            'prix' => $prix,
+        ));
+    }
+
+    /**
+     * @Route("/checkout", name="checkout")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function checkoutAction(Request $request)
+    {
+        $session = $request->getSession();
+        $prix = $this->get('session')->get('prix');
+        $reservationPrix = $prix;
+        $reservation = $this->get('session')->get('reservation');
+
+        \Stripe\Stripe::setApiKey("sk_test_NIv47DBDIXBHBdKnlWSnEIaV");
+        // Obtenir les détails de la carte de crédit soumis par le formulaire
+        $token = $request->get('stripeToken');
+        // Créer une charge: cela facturera la carte de l'utilisateur
+
+        try {
+            $charge = \Stripe\Charge::create(array(
+                "amount" => $prix * 100,
+                "currency" => "eur",
+                "source" => $token,
+                "description" => "Paiement Stripe - Musée du Louvre"
+            ));
+
+            // Récupération de l'adresse électronique du client
+            //$stripeinfo = \Stripe\Token::retrieve($token);
+            //$clientEmail = $stripeinfo->email;
+            $clientEmail = "leconte_bruno@outlook.com";
+            $reservationCode = $this->get('louvre.reservation_codereservationmanager')->generateCode($reservation);
+            $reservation->setNumeroReservation($reservationCode);
+
+            // Persisting & flushing reservation & client(s)
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($session->get('reservation'));
+            $em->flush();
+            //foreach($reservation->getClients() as $client) {
+            //    $client->setReservation($reservation);
+            //    $em->persist($client);
+            //}
+            $em->flush();
+
+            // Envoi du courrier électronique de confirmation
+            $this->get('louvre_reservation_emailmanager')->sendEmail($reservation, $clientEmail, $reservationPrix);
+
+            // Lecture de toutes les données de session et identification de la session de régénération ID
+            $session->invalidate();
+
+            return $this->render('LouvreReservationBundle:Reservation:success.html.twig');
+        } catch(\Stripe\Error\Card $e) {
+            $session->getFlashBag()->add("error", "Le paiement a échoué. Veuillez recommencer.");
+            return $this->redirectToRoute("payment");
+            // La carte a été refusée
+        }
+    }
 }

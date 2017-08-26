@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  * Class ContainsLettersAndAccents
- * @package Louvre\ReservationBundle\Validator
+ * @package Louvre\ReservationBundle\Validator\Constraints
  */
 class ContainsLettersAndAccents extends Constraint
 {

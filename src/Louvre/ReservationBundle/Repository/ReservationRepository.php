@@ -10,4 +10,15 @@ namespace Louvre\ReservationBundle\Repository;
  */
 class ReservationRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findTotalTickets($selectedDate)
+    {
+        $query = $this->createQueryBuilder('t')
+            ->where('t.date = :date')
+            ->setParameter('date', $selectedDate)
+            ->select('SUM(t.numeroTickets)')
+            ->getQuery()
+        ;
+
+        return $query->getSingleScalarResult();
+    }
 }

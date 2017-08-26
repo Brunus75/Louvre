@@ -44,18 +44,17 @@ class ClientType extends AbstractType
                     'day' => 'Jour', 'month' => 'Mois', 'year' => 'Année',
                 ),
                 'format'        => 'ddMMyyyy',
+                'years'         => range(1917,2017),
             ))
 
             ->add('pays', CountryType::class, array(
                 'label'         => 'Pays',
                 'placeholder'   => 'Choisissez votre pays',
-                'preferred_choices' => [
-                    'FR'
-                ]
+                'preferred_choices' => [ 'FR' ]
             ))
 
             ->add('discount', CheckboxType::class, array(
-                'label'         => 'Dispose du prix réduit',
+                'label'         => 'Tarif réduit',
                 'required'      => false,
             ))
         ;

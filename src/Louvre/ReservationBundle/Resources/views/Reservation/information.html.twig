@@ -1,24 +1,33 @@
-{% extends "@LouvreReservation/base.html.twig" %}
+{% extends "LouvreReservationBundle::base.html.twig" %}
 
 {% block title %}Vos informations{% endblock %}
 
 {% block body %}
     <div class="container main-container">
-        {% include "@LouvreReservation/inc/title.html.twig" %}
+        {% include "LouvreReservationBundle:inc:title.html.twig" %}
 
         <div id="reservation">
             <div class="row">
                 <div class="col-xs-12 col-sm-3">
-                    {% include "@LouvreReservation/inc/prix.html.twig" %}
+                    {% include "LouvreReservationBundle:inc:prix.html.twig" %}
                 </div>
 
-
+                <div class="col-xs-12 col-sm-6">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <p class="form-buttons text-right">
+                        <button type="submit" class="btn go-back" id="go-back"><span class="glyphicon glyphicon-arrow-left"></span> Retour</button>
+                        <button type="submit" class="btn continuer-button" id="continuer">Continuer</button>
+                    </p>
+                    {{ form_end(form) }}
+                </div>
 
                 <div class="col-xs-12 col-sm-3">
                     <div class="summary">
                         <h4><span class="glyphicon glyphicon-shopping-cart"></span> Votre réservation</h4>
                         <p>Date de votre réservation : {{ app.session.get('reservation').date|date('d/m/Y') }}</p>
-                        <p>Type de billetn: {{ app.session.get('reservation').type }}</p>
+                        <p>Code de réservation : {{ app.session.get('reservation').nomReservation }}</p>
+                        <p>Type de billet choisi : {{ app.session.get('reservation').type }}</p>
                         <p>Nombre de billets : {{ app.session.get('reservation').numeroTickets }}</p>
                     </div>
                 </div>
