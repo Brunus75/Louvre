@@ -4,15 +4,13 @@ namespace Louvre\ReservationBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Louvre\ReservationBundle\Validator\OrderCheck;
+use Louvre\ReservationBundle\Validator\Constraints as MyAssert;
 
 /**
  * Reservation
  *
  * @ORM\Table(name="reservation")
  * @ORM\Entity(repositoryClass="Louvre\ReservationBundle\Repository\ReservationRepository")
- * @OrderCheck()
  */
 class Reservation
 {
@@ -28,7 +26,7 @@ class Reservation
     /**
      * @var string
      *
-     * @ORM\Column(name="nomReservation", type="string", length=255)
+     * @ORM\Column(name="nomReservation", type="string", length=255, nullable=false)
      */
     private $nomReservation;
 
@@ -36,16 +34,9 @@ class Reservation
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
-     * @Assert\Email()
+     *
      */
     private $email;
-
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="fullDay", type="boolean")
-     */
-    private $jourEntier = true;
 
     /**
      * @var \DateTime
@@ -54,21 +45,32 @@ class Reservation
      */
     private $date;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
+     */
+    private $type;
 
     /**
      * @var int
      *
      * @ORM\Column(name="numeroTickets", type="integer")
+     * @MyAssert\NombreMaxTickets()
      */
     private $numeroTickets;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateReservation", type="date")
-     * @Assert\NotBlank(message="entry_date.blank")
+     * @ORM\Column(name="dateReservation", type="datetime")
      */
     private $dateReservation;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Client", mappedBy="reservation", cascade={"persist", "remove"})
+     */
+    private $clients;
 
     /**
      * @var string
@@ -78,19 +80,17 @@ class Reservation
     private $numeroReservation;
 
     /**
-     * @ORM\OneToMany(targetEntity="Louvre\ReservationBundle\Entity\Client", mappedBy="reservation", cascade={"persist", "remove"})
-     * @Assert\Valid()
+     * @var integer;
+     *
+     * @ORM\Column(name="totalPrix", type="integer")
      */
-    private $clients;
+    private $totalPrix;
 
-    /**
-     * Constructeur
-     */
     public function __construct()
     {
-        $this->date  = new \DateTime();
-        $this->nomReservation         = strtoupper(uniqid('LOUVRE'));
-        $this->clients     = new ArrayCollection();
+        $this->dateReservation = new \Datetime();
+        $this->nomReservation  = strtoupper(uniqid('LOUVRE'));
+        $this->clients = new ArrayCollection();
     }
 
     /**
@@ -112,7 +112,7 @@ class Reservation
      */
     public function setNomReservation($nomReservation)
     {
-        $this->nomReservation = strtolower($nomReservation);
+        $this->nomReservation = $nomReservation;
 
         return $this;
     }
@@ -152,30 +152,6 @@ class Reservation
     }
 
     /**
-     * Set jourEntier
-     *
-     * @param boolean $fullDay
-     *
-     * @return Reservation
-     */
-    public function setJourEntier($jourEntier)
-    {
-        $this->jourEntier = $jourEntier;
-
-        return $this;
-    }
-
-    /**
-     * Get jourEntier
-     *
-     * @return bool
-     */
-    public function getJourEntier()
-    {
-        return (bool) $this->jourEntier;
-    }
-
-    /**
      * Set date
      *
      * @param \DateTime $date
@@ -197,6 +173,30 @@ class Reservation
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Reservation
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
@@ -248,30 +248,6 @@ class Reservation
     }
 
     /**
-     * Set numeroReservation
-     *
-     * @param string $numeroReservation
-     *
-     * @return Reservation
-     */
-    public function setNumeroReservation($numeroReservation)
-    {
-        $this->numeroReservation = $numeroReservation;
-
-        return $this;
-    }
-
-    /**
-     * Get numeroReservation
-     *
-     * @return string
-     */
-    public function getNumeroReservation()
-    {
-        return $this->numeroReservation;
-    }
-
-    /**
      * Add client
      *
      * @param \Louvre\ReservationBundle\Entity\Client $client
@@ -305,6 +281,63 @@ class Reservation
         return $this->clients;
     }
 
+
+    /**
+     * Set numeroReservation
+     *
+     * @param string $numeroReservation
+     *
+     * @return Reservation
+     */
+    public function setNumeroReservation($numeroReservation)
+    {
+        $this->numeroReservation = $numeroReservation;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroReservation
+     *
+     * @return string
+     */
+    public function getNumeroReservation()
+    {
+        return $this->numeroReservation;
+    }
+
+
+    /**
+     * Set totalPrix
+     *
+     * @param integer $totalPrix
+     *
+     * @return Reservation
+     */
+    public function setTotalPrix($totalPrix)
+    {
+        $this->totalPrix = $totalPrix;
+
+        return $this;
+    }
+
+    /**
+     * Calcule le montant total de la commande
+     *
+     * @return int
+     */
+    public function getTotalPrix()
+    {
+        $clients = $this->getClients();
+        $total = 0;
+
+        foreach($clients as $client){
+            $total = $total + $client->getPrix();
+        }
+
+        return $total;
+    }
+
     /**
      * Récupération du nombre de tickets
      *
@@ -315,21 +348,4 @@ class Reservation
         return count($this->clients);
     }
 
-    /**
-     * Calcule le montant total de la commande
-     *
-     * @return int
-     */
-    public function getTotalPrix()
-    {
-        $visitors = $this->getClients();
-        $total = 0;
-
-        foreach($clients as $client){
-            $total = $total + $client->getPrix();
-        }
-
-        return $total;
-    }
 }
-

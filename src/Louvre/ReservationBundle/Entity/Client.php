@@ -3,6 +3,7 @@
 namespace Louvre\ReservationBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Louvre\ReservationBundle\Validator\Constraints as MyAssert;
 
 /**
  * Client
@@ -22,75 +23,49 @@ class Client
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Reservation", inversedBy="clients", cascade={"persist", "remove"})
-     */
-    private $reservation;
-
-    /**
      * @var string
-     *
-     * @ORM\Column(name="prenom", type="string", length=255)
+     * @ORM\Column(name="prenom", type="string", length=255, nullable=false)
+     * @MyAssert\ContainsLettersAndAccents()
      */
     private $prenom;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=255)
+     * @ORM\Column(name="nom", type="string", length=255, nullable=false)
+     * @MyAssert\ContainsLettersAndAccents()
      */
     private $nom;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="anniversaire", type="date")
-     * @Assert\Date()
-     * @BirthdayCheck()
+     * @ORM\Column(name="anniversaire", type="datetime")
      */
     private $anniversaire;
 
     /**
      * @var string
-     *
      * @ORM\Column(name="pays", type="string", length=255)
-     * @Assert\Pays()
      */
     private $pays;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255)
+     * @var boolean
+     * @ORM\Column(name="discount", type="boolean")
      */
-    private $type;
+    private $discount = false;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="promo", type="boolean")
-     */
-    private $promo;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="price", type="decimal", precision=10, scale=2)
+     * @var integer;
      */
     private $prix;
 
     /**
-     * Constructeur
+     * @ORM\ManyToOne(targetEntity="Reservation", inversedBy="clients", cascade={"persist", "remove"})
      */
-    public function __construct()
-    {
-        $this->reduit      = false;
-        $this->type         = 'NORMAL';
-    }
-
+    private $reservation;
 
     /**
      * Get id
-     *
      * @return int
      */
     public function getId()
@@ -99,46 +74,19 @@ class Client
     }
 
     /**
-     * Set reservation
-     *
-     * @param \Louvre\ReservationBundle\Entity\Reservation
-     *
-     * @return Client
-     */
-    public function setReservation(\Louvre\ReservationBundle\Entity\Reservation $reservation)
-    {
-        $this->reservation = $reservation;
-
-        return $this;
-    }
-
-    /**
-     * Get reservation
-     *
-     * @return \Louvre\ReservationBundle\Entity\Reservation
-     */
-    public function getReservation()
-    {
-        return $this->reservation;
-    }
-
-    /**
      * Set prenom
-     *
      * @param string $prenom
-     *
      * @return Client
      */
     public function setPrenom($prenom)
     {
-        $this->prenom = strtolower($prenom);
+        $this->prenom = $prenom;
 
         return $this;
     }
 
     /**
      * Get prenom
-     *
      * @return string
      */
     public function getPrenom()
@@ -148,21 +96,18 @@ class Client
 
     /**
      * Set nom
-     *
      * @param string $nom
-     *
      * @return Client
      */
     public function setNom($nom)
     {
-        $this->nom = strtolower($nom);
+        $this->nom = $nom;
 
         return $this;
     }
 
     /**
      * Get nom
-     *
      * @return string
      */
     public function getNom()
@@ -172,9 +117,7 @@ class Client
 
     /**
      * Set anniversaire
-     *
      * @param \DateTime $anniversaire
-     *
      * @return Client
      */
     public function setAnniversaire($anniversaire)
@@ -186,7 +129,6 @@ class Client
 
     /**
      * Get anniversaire
-     *
      * @return \DateTime
      */
     public function getAnniversaire()
@@ -196,9 +138,7 @@ class Client
 
     /**
      * Set pays
-     *
      * @param string $pays
-     *
      * @return Client
      */
     public function setPays($pays)
@@ -210,7 +150,6 @@ class Client
 
     /**
      * Get pays
-     *
      * @return string
      */
     public function getPays()
@@ -219,36 +158,47 @@ class Client
     }
 
     /**
-     * Set promo
-     *
-     * @param boolean $promo
-     *
+     * Set reservation
+     * @param \Louvre\ReservationBundle\Entity\Reservation $reservation
      * @return Client
      */
-    public function setPromo($promo)
+    public function setReservation(Reservation $reservation = null)
     {
-        $this->promo = $promo;
+        $this->reservation = $reservation;
 
         return $this;
     }
 
     /**
-     * Get promo
-     *
-     * @return bool
+     * Get reservation
+     * @return \Louvre\ReservationBundle\Entity\Reservation
      */
-    public function getPromo()
+    public function getReservation()
     {
-        return $this->promo;
+        return $this->reservation;
     }
 
     /**
-     * Set prix
-     *
-     * @param string $price
-     *
+     * Set discount
+     * @param boolean $discount
      * @return Client
      */
+    public function setDiscount($discount)
+    {
+        $this->discount = $discount;
+
+        return $this;
+    }
+
+    /**
+     * Get discount
+     * @return boolean
+     */
+    public function getDiscount()
+    {
+        return $this->discount;
+    }
+
     public function setPrix($prix)
     {
         $this->prix = $prix;
@@ -256,48 +206,8 @@ class Client
         return $this;
     }
 
-    /**
-     * Get prix
-     *
-     * @return string
-     */
     public function getPrix()
     {
         return $this->prix;
     }
-
-    /**
-     * Set type
-     *
-     * @param string $type
-     *
-     * @return Client
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Récupére l'age du visiteur
-     *
-     * @return int
-     */
-    public function getAge()
-    {
-        return $this->getAnniversaire()->diff(new \DateTime())->y;
-    }
 }
-
