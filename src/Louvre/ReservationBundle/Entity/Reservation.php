@@ -79,14 +79,8 @@ class Reservation
      */
     private $numeroReservation;
 
-    /**
-     * @var integer;
-     *
-     * @ORM\Column(name="totalPrix", type="integer")
-     */
-    private $totalPrix;
 
-    public function __construct()
+        public function __construct()
     {
         $this->dateReservation = new \Datetime();
         $this->nomReservation  = strtoupper(uniqid('LOUVRE'));
