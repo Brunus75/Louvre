@@ -23,9 +23,9 @@ class ReservationTest extends \PHPUnit_Framework_TestCase
 
     public function testDate()
     {
-        $this->reservation->setDate(new \Datetime('30-18-2017'));
-        $this->assertNotEquals(new \Datetime('30-08-2016'), $this->reservation->getDate());
-        $this->assertEquals(new \Datetime('30-08-2017'), $this->reservation->getDate());
+        $this->reservation->setDate(new \Datetime('07-09-2017'));
+        $this->assertNotEquals(new \Datetime('07-10-2017'), $this->reservation->getDate());
+        $this->assertEquals(new \Datetime('07-09-2017'), $this->reservation->getDate());
     }
 
     public function testType()
