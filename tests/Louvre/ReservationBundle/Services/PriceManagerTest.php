@@ -34,7 +34,7 @@ class PrixManagerTest extends \PHPUnit_Framework_TestCase
     public function testCalculateReturnsGoodPrixForToddler()
     {
         $this->client->setAnniversaire(\DateTime::createFromFormat($this->format, $this->getPreviousYears("-2 years")))->setDiscount(false);
-        $this->reservation->addClient($this->client)->setType('journée');
+        $this->reservation->addClient($this->client)->setType('journee');
         $result = $this->PrixManager->calculate($this->reservation);
         $this->assertEquals(0, $result);
     }
@@ -45,7 +45,7 @@ class PrixManagerTest extends \PHPUnit_Framework_TestCase
     public function testCalculateReturnsGoodPrixForChild()
     {
         $this->client->setAnniversaire(\DateTime::createFromFormat($this->format, $this->getPreviousYears("-5 years")))->setDiscount(false);
-        $this->reservation->addClient($this->client)->setType('journée');
+        $this->reservation->addClient($this->client)->setType('journee');
         $result = $this->PrixManager->calculate($this->reservation);
         $this->assertEquals(8, $result);
     }
@@ -56,7 +56,7 @@ class PrixManagerTest extends \PHPUnit_Framework_TestCase
     public function testCalculateReturnsGoodPrixForRegularClient()
     {
         $this->client->setAnniversaire(\DateTime::createFromFormat($this->format, $this->getPreviousYears("-13 years")))->setDiscount(false);
-        $this->reservation->addClient($this->client)->setType('journée');
+        $this->reservation->addClient($this->client)->setType('journee');
         $result = $this->PrixManager->calculate($this->reservation);
         $this->assertEquals(16, $result);
     }
@@ -67,7 +67,7 @@ class PrixManagerTest extends \PHPUnit_Framework_TestCase
     public function testCalculateReturnsGoodPrixForOldClient()
     {
         $this->client->setAnniversaire(\DateTime::createFromFormat($this->format, $this->getPreviousYears("-61 years")))->setDiscount(false);
-        $this->reservation->addClient($this->client)->setType('journée');
+        $this->reservation->addClient($this->client)->setType('journee');
         $result = $this->PrixManager->calculate($this->reservation);
         $this->assertEquals(12, $result);
     }
@@ -78,7 +78,7 @@ class PrixManagerTest extends \PHPUnit_Framework_TestCase
     public function testCalculateReturnsGoodPrixForClientWithDiscount()
     {
         $this->client->setAnniversaire(\DateTime::createFromFormat($this->format, $this->getPreviousYears("-26 years")))->setDiscount(true);
-        $this->reservation->addClient($this->client)->setType('journée');
+        $this->reservation->addClient($this->client)->setType('journee');
         $result = $this->PrixManager->calculate($this->reservation);
         $this->assertEquals(10, $result);
     }
@@ -89,7 +89,7 @@ class PrixManagerTest extends \PHPUnit_Framework_TestCase
     public function testCalculateReturnsGoodPrixForDemiJournee()
     {
         $this->client->setAnniversaire(\DateTime::createFromFormat($this->format, $this->getPreviousYears("-13 years")))->setDiscount(false);
-        $this->reservation->addClient($this->client)->setType('demi-journée');
+        $this->reservation->addClient($this->client)->setType('demi-journee');
         $result = $this->PrixManager->calculate($this->reservation);
         $this->assertEquals(8, $result);
     }

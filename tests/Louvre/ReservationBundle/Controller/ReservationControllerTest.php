@@ -22,8 +22,8 @@ class ReservationControllerTest extends WebTestCase
         $form = $crawler->selectButton('Continuer')->form();
 
         $form['louvre_reservationbundle_reservation[nomReservation]'] = "Test";
-        $form['louvre_reservationbundle_reservation[date]'] = "07/09/2017";
-        $form['louvre_reservationbundle_reservation[type]'] = "journée";
+        $form['louvre_reservationbundle_reservation[date]'] = "20/09/2017";
+        $form['louvre_reservationbundle_reservation[type]'] = "journee";
         $form['louvre_reservationbundle_reservation[numeroTickets]'] = 1;
 
         $crawler = $this->client->submit($form);

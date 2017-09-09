@@ -2,7 +2,7 @@
 
 namespace Louvre\ReservationBundle\Form;
 
-use Louvre\ReservationBundle\Validator\ContainsLettersAndAccents;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -25,9 +25,6 @@ class ReservationType extends AbstractType
                 'label'         => "Nom de réservation",
                 'attr'          => ['placeholder' => 'Nom de Réservation'],
                 'required'      => true,
-                'constraints'   => [
-                    new ContainsLettersAndAccents(),
-                ],
             ))
 
             ->add('date', DateType::class, array(
@@ -47,14 +44,23 @@ class ReservationType extends AbstractType
             ))
 
             ->add('type', ChoiceType::class, array(
-                'choices'       => array(
-                        'Demi-journée'      => 'demi-journée',
-                        'Journée'           => 'journée',
+                'label'         => 'Type',
+                'label_attr'    => array (
+                        'class'  =>  'alternate',
                 ),
+                'choices'       => array(
+                        'Demi-journée'      => 'demi-journee',
+                        'Journée'           => 'journee',
+                ),
+                'choice_attr'   => array(
+                        'Journée'           => ['class' => 'form_full_day'],
+                        'Demi-journée'      => ['class' => 'form_half_day'],
                 'multiple'      => false,
                 'expanded'      => true,
                 'attr'          => ['class' => 'radio-demi'],
                 'required'      => true,
+                )
+
             ))
 
             ->add('numeroTickets', IntegerType::class, array(
@@ -105,7 +111,7 @@ class ReservationType extends AbstractType
                      * de billet sélectionné est "journée" et qu'il est plus de 14h, la réservation
                      * n'est pas permise.
                      */
-                    if($selectedDate === $today && $selectedType === "journée") {
+                    if($selectedDate === $today && $selectedType === "journee") {
                         if($presentTime >= "14:00:00" && $presentTime <= "23:59:59") {
                             $context
                                 ->buildViolation('Vous ne pouvez pas réserver de billet "Journée" après 14h.')

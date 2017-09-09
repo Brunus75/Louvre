@@ -41,7 +41,7 @@ class Reservation
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="date", type="date")
      */
     private $date;
 
@@ -56,6 +56,7 @@ class Reservation
      * @var int
      *
      * @ORM\Column(name="numeroTickets", type="integer")
+     *
      * @MyAssert\NombreMaxTickets()
      */
     private $numeroTickets;
@@ -83,7 +84,7 @@ class Reservation
         public function __construct()
     {
         $this->dateReservation = new \Datetime();
-        $this->nomReservation  = strtoupper(uniqid('LOUVRE'));
+        $this->nomReservation  = strtoupper(uniqid('LOUVRE', true));
         $this->clients = new ArrayCollection();
     }
 

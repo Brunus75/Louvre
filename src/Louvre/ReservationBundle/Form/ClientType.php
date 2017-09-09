@@ -2,7 +2,7 @@
 
 namespace Louvre\ReservationBundle\Form;
 
-use Louvre\ReservationBundle\Validator\ContainsLettersAndAccents;
+use Louvre\ReservationBundle\Validator\Constraints\ContainsLettersAndAccents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;

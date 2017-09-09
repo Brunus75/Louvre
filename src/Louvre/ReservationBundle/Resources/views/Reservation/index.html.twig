@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-6 reservation-form">
                     {{ form_start(form) }}
-                        {{ form_widget(form) }}
+                    {{ form_widget(form) }}
 
                     <p class="form-buttons text-right">
                         <button type="submit" class="btn continuer-button" id="submit"><strong>Continuer</button>
@@ -22,11 +22,11 @@
                 <noscript>
                     <div class="col-xs-12 col-sm-3">
                         <div class="alert alert-warning text-justify">
-                                Cher visiteur, il semblerait
-                                que le langage JavaScript soit désactivé sur
-                                votre navigateur. Le système de réservation du musée
-                                du Louvre fonctionne grâce à ce langage et serait plus
-                                agréable et intuitif si vous l'utilisiez.
+                            Cher visiteur, il semblerait
+                            que le langage JavaScript soit désactivé sur
+                            votre navigateur. Le système de réservation du musée
+                            du Louvre fonctionne grâce à ce langage et serait plus
+                            agréable et intuitif si vous l'utilisiez.
                         </div>
                     </div>
                 </noscript>
@@ -34,3 +34,15 @@
         </div>
     </div>
 {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/i18n/jquery.ui.datepicker-fr.min.js"></script>
+     <script src="{{ asset('js/app.js') }}" ></script>
+ {% endblock %}

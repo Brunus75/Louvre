@@ -1,0 +1,46 @@
+<?php
+
+namespace Louvre\ReservationBundle\Form;
+
+use Symfony\Component\Form\AbstractType;
+
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
+
+class InfoStepType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('clients', CollectionType::class, array(
+                'validation_groups' => false,
+                'label' => false,
+                'constraints' => [
+                    new Assert\Valid(),
+                ],
+                'entry_type' => ClientType::class,
+                'entry_options' => array('label' => false),
+             ))
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'Louvre\ReservationBundle\Entity\Reservation', 'validation_groups' => 'client'
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'louvre_reservationbundle_reservation';
+    }
+}

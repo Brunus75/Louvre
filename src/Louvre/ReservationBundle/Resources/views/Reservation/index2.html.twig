@@ -1,0 +1,68 @@
+{% extends "LouvreReservationBundle::base.html.twig" %}
+
+{% block title %}Réservation - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="container main-container">
+        {% include "LouvreReservationBundle:inc:title.html.twig" %}
+        <div id="reservation">
+            <div class="row">
+                <div class="col-xs-12 col-sm-3">
+                    {% include "LouvreReservationBundle:inc:prix.html.twig" %}
+                </div>
+                <div class="col-xs-12 col-sm-6 reservation-form">
+
+                                <div id="result" class=""></div>
+                                {{ form_start(form, {"attr": { 'class': "form-horizontal"} }) }}
+                                <div class="errors">
+                                    {{ form_errors(form) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(form.date, null, {"label_attr": {'class': 'col-lg-2 control-label'} }) }}
+                                    <div class="col-lg-10">
+                                        {{ form_widget(form.date, {"attr": {'class': "form-control"} }) }}
+                                    </div>
+                                    <input type="hidden" id="alternate">
+                                </div>
+                                <div id="select-ticket-type" class="form-group">
+                                    {{ form_label(form.type, null, {"label_attr": {'class': 'col-lg-2 control-label'} }) }}
+                                    <div class="col-lg-10">
+                                        {{ form_widget(form.type, {"attr": {'class': "form-control"} }) }}
+                                    </div>
+                                </div>
+                    <div><
+                                <p class="form-buttons text-right">
+                                    <button type="submit" class="btn continuer-button" id="submit"><strong>Continuer</strong></button>
+                                </p>/div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+
+                <noscript>
+                    <div class="col-xs-12 col-sm-3">
+                        <div class="alert alert-warning text-justify">
+                                Cher visiteur, il semblerait
+                                que le langage JavaScript soit désactivé sur
+                                votre navigateur. Le système de réservation du musée
+                                du Louvre fonctionne grâce à ce langage et serait plus
+                                agréable et intuitif si vous l'utilisiez.
+                        </div>
+                    </div>
+                </noscript>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/i18n/jquery.ui.datepicker-fr.min.js"></script>
+     <script src="{{ asset('js/app.js') }}" ></script>
+ {% endblock %}

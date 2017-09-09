@@ -10,12 +10,19 @@
 
 <div class="info" style="background-color: #f8f8f8; border: 1px solid #d8d8d8; padding: 10px;">
     <p><strong>Date de réservation :</strong> {{ reservation.dateReservation|date('d/m/Y') }}</p>
-    <p><strong>Tarif :</strong> {{ reservation.totalPrix }} &euro;</p>
+    <p><strong>Tarif :</strong> {{ reservation.getTotalPrix }} &euro;</p>
     <p><strong>Type :</strong> {{ reservation.type }}</p>
-    <p><strong>Visiteurs :</strong></p>
+    <p><strong>Liste des billets (nominatifs) :</strong></p>
     <ul>
-    {% for client in reservation.clients %}
-        <li>{{ client.prenom }} {{ client.nom }}</li>
+    {% for key,  client in reservation.clients %}
+        <li>
+            <div>
+                <h4>{{ client.prenom }} {{ client.nom }}</h4>
+                <p>Pays de nationalité: {{ client.pays }}</p>
+                <p>Né le: {{ client.anniversaire.date | date("d/m/Y") }}</p>
+                <p>Prix du billet: {{ client.prix }} €</p>
+            </div>
+        </li>
     {% endfor %}
     </ul>
     <p><strong>Code de réservation : </strong>{{ reservation.nomReservation }}</p>

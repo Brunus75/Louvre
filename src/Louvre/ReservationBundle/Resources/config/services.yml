@@ -7,6 +7,9 @@ services:
     louvre_reservation_Prixmanager:
         class: Louvre\ReservationBundle\Services\PrixManager
 
+    louvre_reservation_payment:
+        class: Louvre\ReservationBundle\Services\Payment\Payment
+
     louvre_reservation_emailmanager:
         class: Louvre\ReservationBundle\Services\EmailManager
         arguments: ["@mailer", "@templating"]

@@ -20,29 +20,34 @@ class NombreMaxTicketsValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint)
     {
-        // Fetching the request
+        // Récupérer le request
         $request = $this->request->getCurrentRequest();
 
-        // Fetching the selected date in jQuery UI datepicker
+        // Récupérer la date sélectionnée dans jQuery UI datepicker
         $selectedDate = $request->request->get('louvre_reservationbundle_reservation')['date'];
 
-        // Number of tickets required by the user
+        // Nombre de tickets requis par l'utilisateur
         $nbOfTickets = $request->request->get('louvre_reservationbundle_reservation')['numeroTickets'];
 
         // Entity Manager
         $em = $this->entityManager;
 
-        // Fetching every 'Reservation' object which date is equal to the selected date
-        $totalTickets = $em->getRepository('LouvreReservationBundle:Reservation')->findTotalTickets(\DateTime::createFromFormat('d/m/Y', $selectedDate));
+        // Récupérer tous les objets «Réservé» dont la date est égale à la date sélectionnée
+        $totalTickets = $em->getRepository('LouvreReservationBundle:Reservation')->findTotalTickets($selectedDate);
 
-        // Remaining tickets
-        $remainingTickets = 1000 - $totalTickets;
+      //var_dump($selectedDate); die();   // ok $selectedDate -  $nbOfTickets ok
 
+
+        // Billets restants
+        $remainingTickets = 4 - $totalTickets;
+
+      //var_dump($totalTickets); die();
         /*
-         * If the number of tickets required by the user is more than
-         * the number of remaining tickets, then the reservation isn't allowed.
-         */
-        if($nbOfTickets > $remainingTickets) {
+         * Si le nombre de tickets requis par l'utilisateur est supérieur à
+         * le nombre de billets restants, alors la réservation n'est pas autorisée.
+         */
+        if($nbOfTickets > $remainingTickets)
+        {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }
