@@ -1,7 +1,11 @@
 $(function() {
     var date = new Date();
 
-    /* Getting the current time */
+
+
+
+
+    /* Obtenir l'heure actuelle */
     function currentTime() {
         var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
         var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
@@ -10,7 +14,7 @@ $(function() {
         return hours + ":" + minutes + ":" + seconds;
     }
 
-    /* First page datepicker */
+    /* Première page datepicker */
     var datepicker = $("#louvre_reservationbundle_reservation_date");
 
     // Tableau des jours fériés français
@@ -22,7 +26,7 @@ $(function() {
         dateFormat: "dd/mm/yy",
         closeText: "Close",
         firstDay: 1,
-        // Holidays, Sunday, and Tuesday are unavailable in the datepicker.
+        // Les vacances, le dimanche et le mardi ne sont pas disponibles dans le in the datepicker.
         beforeShowDay: function(date) {
             if($.inArray($.datepicker.formatDate('dd/mm', date), holidays) > - 1) {
                 return [false, "", "Unavailable"];
@@ -57,7 +61,7 @@ $(function() {
          $(this).blur();
     });
 
-    /* Calendar change event */
+    /* Événement de changement de calendrier */
     datepicker.on('change', function() {
         var selectedDate = datepicker.val();
         var date = new Date();
@@ -79,13 +83,13 @@ $(function() {
                 " <span class='why-disabled'><small>(<em>Non disponible après 14h.</em>)</small></span>");
             demiJournee.prop("checked", "true");
         } else {
-            // Nothing
+            // Rien
             journee.prop("disabled", false);
             $('.why-disabled').remove();
         }
     });
 
-    /* Go back button: second & third page */
+    /* Bouton de retour: deuxième et troisième page */
     var goBackButton = $('.go-back');
     goBackButton.on('click', function(e) {
         e.preventDefault();
@@ -95,4 +99,6 @@ $(function() {
     $('.info-reservation').on('click', function() {
         $(this).next().fadeToggle();
     });
+
+
 });
