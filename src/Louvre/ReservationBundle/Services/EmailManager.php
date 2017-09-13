@@ -28,8 +28,8 @@ class EmailManager
         $message = \Swift_Message::newInstance()
             ->setContentType("text/html")
             ->setSubject('Votre réservation pour visiter le musée du Louvre')
-            ->setFrom('brunus75@gmail.com')
-            ->setTo($paymentmail)
+            ->setFrom('88brunus88@gmail.com')
+            ->setTo($paymentmail)   //('root@localhost')
             ->setBody($this->templating->render('LouvreReservationBundle:Emails:reservation.html.twig', array(
                 'reservation' => $reservation,
                 'reservationPrix' => $reservationPrix,
