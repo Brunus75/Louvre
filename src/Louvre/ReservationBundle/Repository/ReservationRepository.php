@@ -10,6 +10,7 @@ class ReservationRepository extends \Doctrine\ORM\EntityRepository
 
     public function findTotalTickets($selectedDate)
     {
+        //Déterminer le nombre de billets vendus à une date données//
         $selectedDate = explode('/', $selectedDate);
         $dateformat = $selectedDate[1].'/'.$selectedDate[0].'/'.$selectedDate[2];
         $selectedDate = new \DateTime($dateformat);

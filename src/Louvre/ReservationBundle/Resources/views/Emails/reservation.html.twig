@@ -9,7 +9,7 @@
 </p>
 
 <div class="info" style="background-color: #f8f8f8; border: 1px solid #d8d8d8; padding: 10px;">
-    <p><strong>Date de réservation :</strong> {{ reservation.dateReservation|date('d/m/Y') }}</p>
+    <p><strong>Date de réservation :</strong> {{ reservation.date|date('d/m/Y') }}</p>
     <p><strong>Tarif :</strong> {{ reservation.getTotalPrix }} &euro;</p>
     <p><strong>Type :</strong> {{ reservation.type }}</p>
     <p><strong>Liste des billets (nominatifs) :</strong></p>
@@ -17,10 +17,11 @@
     {% for key,  client in reservation.clients %}
         <li>
             <div>
+                <p>Numéro du billet: {{ reservation.numeroReservation }}</p>
                 <h4>{{ client.prenom }} {{ client.nom }}</h4>
                 <p>Pays de nationalité: {{ client.pays }}</p>
                 <p>Né le: {{ client.anniversaire.date | date("d/m/Y") }}</p>
-                <p>Prix du billet: {{ client.prix }} €</p>
+                    <p>Prix du billet: {{ client.prix }} € </p>
             </div>
         </li>
     {% endfor %}
@@ -28,7 +29,7 @@
     <p><strong>Code de réservation : </strong>{{ reservation.nomReservation }}</p>
 </div>
 
-<p>Rappel : si vous avez coché la case "Dispose d'une réduction" lors de votre réservation,
+<p>Rappel : si vous avez coché la case "Tarif Réduit" lors de votre réservation,
 vous devez vous munir d'un justificatif que vous devrez impérativement présenter lors de
 votre venue au musée.</p>
 

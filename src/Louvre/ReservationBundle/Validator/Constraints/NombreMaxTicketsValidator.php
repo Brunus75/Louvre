@@ -39,7 +39,7 @@ class NombreMaxTicketsValidator extends ConstraintValidator
 
 
         // Billets restants
-        $remainingTickets = 4 - $totalTickets;
+        $remainingTickets = 1000 - $totalTickets;
 
       //var_dump($totalTickets); die();
         /*

@@ -1,10 +1,6 @@
 $(function() {
     var date = new Date();
 
-
-
-
-
     /* Obtenir l'heure actuelle */
     function currentTime() {
         var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
