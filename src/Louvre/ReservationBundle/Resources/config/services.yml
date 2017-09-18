@@ -2,3 +2,25 @@ services:
 #    louvre_reservation.example:
 #        class: Louvre\ReservationBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+services:
+    louvre_reservation_Prixmanager:
+        class: Louvre\ReservationBundle\Services\PrixManager
+
+    louvre_reservation_payment:
+        class: Louvre\ReservationBundle\Services\Payment\Payment
+
+    louvre_reservation_emailmanager:
+        class: Louvre\ReservationBundle\Services\EmailManager
+        arguments: ["@mailer", "@templating"]
+
+    louvre.reservation_codereservationmanager:
+        class: Louvre\ReservationBundle\Services\CodeReservationManager
+
+    app.nombre_max_tickets:
+        class: Louvre\ReservationBundle\Validator\Constraints\NombreMaxTicketsValidator
+        # In the validator, we need the entity manager, but we also need
+        # to access the request, a.k.a the form data
+        arguments: ['@doctrine.orm.entity_manager', '@request_stack']
+        tags:
+            - { name: validator.constraint_validator, alias: app_max }

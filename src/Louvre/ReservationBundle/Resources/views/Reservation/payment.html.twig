@@ -1,0 +1,74 @@
+{% extends 'LouvreReservationBundle::base.html.twig' %}
+
+{% block title %}Paiement - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="container main-container">
+        {% include "LouvreReservationBundle:inc:title.html.twig" %}
+
+        <div class="row">
+            <h4 class="text-center">Récapitulatif</h4>
+            <p class="recap text-center">La réservation de <strong>{{ reservation.numeroTickets }}</strong> billet(s) pour le <strong>{{ reservation.date|date('d/m/Y') }}</strong> est effectuée au nom de <strong>{{ reservation.nomReservation }}</strong>. Vous souhaitez visiter le musée pour une <strong>{{ reservation.type }}</strong>.</p>
+
+            <hr>
+
+            <h4 class="text-center">Visiteurs</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-condensed">
+                    <thead class="">
+                        <tr>
+                            <th>N°</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Réduction</th>
+                            <th>Prix</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for client in reservation.clients %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ client.prenom }}</td>
+                                <td>{{ client.nom }}</td>
+                                <td>
+                                    {% if client.discount %}
+                                        Oui
+                                    {% else %}
+                                        Non
+                                    {% endif %}
+                                </td>
+                                <td>{{ client.prix }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="text-right">
+                <label for="total">Total : </label>
+                <input class="text-right" type="number" placeholder="{{ prix }} &euro;" readonly />
+            </div>
+
+            <div id="status">
+                <form action="{{ path('checkout') }}" method="post">
+                    <button type="submit" class="btn go-back" id="go-back"><span class="glyphicon glyphicon-arrow-left"></span> Retour</button>
+                    <script src="https://checkout.stripe.com/checkout.js"
+                            class="stripe-button"
+                            data-key="pk_test_VH7lCZK1rFo18bQqG0Y1wRUe" 
+                            data-amount="{{ prix }}00" 
+                            data-name="Musée du Louvre" 
+                            data-description="Billeterie"
+                            data-label="Payer" 
+                            data-image= "{{ asset('images/louvre-strippe.jpg') }}"
+                            data-locale="auto" 
+                            data-currency="eur">
+                    </script>
+                </form>
+            </div>
+                <a class="topagepayment">
+                        <img src="{{ asset('images/cards.png') }}" class="payment-logo" alt="CB de paiement">
+                </a>
+        </div>
+    </div>
+{% endblock %}

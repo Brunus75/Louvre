@@ -14,10 +14,14 @@ a.toHomepage { text-decoration: none; }
     margin: 0;
 }
 
-/* Tarifs container */
-.Tarifs-container {
-    background-color: #2d3458;
-    color: #b5c8d0;
+input::placeholder {
+    color: red;
+}
+
+/* Prix container */
+.Prix-container {
+    background-color: #574460;
+    color: #fff;
     padding: 5px 15px;
 }
 
@@ -27,8 +31,13 @@ a.toHomepage { text-decoration: none; }
     font-size: .9em;
 }
 
+#togglecolor {
+    color: #F0EDBB;
+    text-decoration: underline
+
+}
 .summary {
-    background-color: #4e4e4e;
+    background-color: #574460;
     color: #fff;
     padding: 10px;
     text-align: center;
@@ -39,7 +48,7 @@ a.toHomepage { text-decoration: none; }
 }
 
 /* Website header */
-.website-logo { width: 230px; }
+.website-logo { width: 90%; }
 
 /* Allows sticky footer */
 .main-container { flex: 1 0 0; }
@@ -60,7 +69,7 @@ a.toHomepage { text-decoration: none; }
 }
 
 /* Aside */
-aside h3 { margin: 0 0 5px 0; }
+aside h3 { margin: 0 0 10px 0; }
 
 .info-clients { display: none; }
 .info-reservation { cursor: pointer; }
@@ -73,14 +82,10 @@ aside h3 { margin: 0 0 5px 0; }
 .reservation-form { padding: 0 15px; }
 
 /* Discount conditions */
-.conditions {
-    font-weight:bold;
-    color: #C9C9C9;
-}
+.conditions { font-weight:bold; }
 .conditions:hover {
     cursor: pointer;
     text-decoration: underline;
-    color: #4d67ff;
 }
 
 .modal-content {
@@ -94,13 +99,24 @@ aside h3 { margin: 0 0 5px 0; }
 /***************\
    PAYMENT PAGE
 \***************/
+.reservation-table th,
+.reservation-table td { text-align: center;}
+.recap { line-height: 2em; }
+#status { margin-top: 20px; }
 
+/* Website header */
+img.payment-logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25%;
+}
 
 /***************\
    Success Page
 \***************/
 .success-page {
-    background-image: url('../images/Louvre-1.png');
+    background-image: url('../images/Louvre-1.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -124,7 +140,7 @@ aside h3 { margin: 0 0 5px 0; }
      FOOTER
 \***************/
 footer {
-    background-color: #4d67ff;
+    background-color: #f28b4a;
     padding: 10px 0;
 }
 
@@ -145,4 +161,40 @@ footer p {
     .summary {
         margin: 30px 0;
     }
+}
+
+
+/*----------------------------------
+   FORM
+   ------------------------------------*/
+.form-control {
+    color: #333;
+    height: 40px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    box-shadow: 0
+}
+
+.form-group {
+    margin-bottom: 20px
+}
+
+.form-control[readonly]{
+    background-color: #fefefe !important;
+}
+
+.checkbox label, .radio label{
+    padding-left: 0 !important;
+}
+
+.checkbox, .radio{
+    display: inline !important;
+    margin-right: 3px;
+}
+
+.form-inline select{
+    margin-right: 30px !important;
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
 }

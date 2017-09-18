@@ -1,7 +1,9 @@
 /.web-server-pid
 /app/config/parameters.yml
+/app/config/parameters.yml-1
 /build/
 /phpunit.xml
+/app/bootstrap.php.cache
 /var/*
 !/var/cache
 /var/cache/*
@@ -15,3 +17,12 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+
+.idea/composerJson.xml
+.idea/dataSources.local.xml
+.idea/dataSources.xml
+.idea/dataSources/
+.idea/jsLibraryMappings.xml
+.idea/php-test-framework.xml
+.idea/workspace.xml
+

@@ -1,20 +1,32 @@
-{% extends "@LouvreReservation/base.html.twig" %}
+{% extends "LouvreReservationBundle::base.html.twig" %}
 
 {% block title %}Réservation - {{ parent() }}{% endblock %}
 
 {% block body %}
     <div class="container main-container">
-        {% include "@LouvreReservation/inc/title.html.twig" %}
+        {% include "LouvreReservationBundle:inc:title.html.twig" %}
         <div id="reservation">
             <div class="row">
                 <div class="col-xs-12 col-sm-3">
-                    {% include "@LouvreReservation/inc/prix.html.twig" %}
+                    {% include "LouvreReservationBundle:inc:prix.html.twig" %}
                 </div>
+                <div class="col-xs-12 col-sm-6 reservation-form">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
 
+                    <p class="form-buttons text-right">
+                        <button type="submit" class="btn continuer-button" id="submit"><strong>Continuer</button>
+                    </p>
+                    {{ form_end(form) }}
+                </div>
                 <noscript>
                     <div class="col-xs-12 col-sm-3">
                         <div class="alert alert-warning text-justify">
-                                Merci d'installer et/ou d'activer Cher visiteur, le langage JavaScript sur votre navigateur. Le système de réservation du musée du Louvre fonctionne grâce à ce langage.
+                            Cher visiteur, il semblerait
+                            que le langage JavaScript soit désactivé sur
+                            votre navigateur. Le système de réservation du musée
+                            du Louvre fonctionne grâce à ce langage et serait plus
+                            agréable et intuitif si vous l'utilisiez.
                         </div>
                     </div>
                 </noscript>
@@ -22,3 +34,15 @@
         </div>
     </div>
 {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.9.2/i18n/jquery.ui.datepicker-fr.min.js"></script>
+     <script src="{{ asset('js/app.js') }}" ></script>
+ {% endblock %}
