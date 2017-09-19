@@ -14,7 +14,7 @@ $(function() {
     var datepicker = $("#louvre_reservationbundle_reservation_date");
 
     // Tableau des jours fériés français
-    var holidays = ['01/01', '14/04', '01/05', '08/05', '25/05', '05/06', '14/07', '15/08', '01/11', '11/11', '25/12'];
+    var holidays = ['01/01', '17/04', '01/05', '08/05', '25/05', '05/06', '14/07', '15/08', '01/11', '11/11', '25/12'];
 
     datepicker.datepicker({
         minDate: 0,

@@ -13,6 +13,6 @@ class ContainsLettersAndAccents extends Constraint
 {
     public $message =
         '"{{ string }}" contient un ou plusieurs caractères interdits : 
-        ce champ ne peut pas contenir de chiffre.'
+        ce champ ne peut pas contenir de symbole ou chiffre.'
     ;
 }

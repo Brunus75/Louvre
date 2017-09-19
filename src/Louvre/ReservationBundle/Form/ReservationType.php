@@ -104,7 +104,7 @@ class ReservationType extends AbstractType
                     $selectedType = $data->getType();
 
                     // Array of French holidays
-                    $holidays = ['01/01', '14/04', '01/05', '08/05', '25/05', '05/06', '14/07', '15/08', '01/11', '11/11', '25/12'];
+                    $holidays = ['01/01', '17/04', '01/05', '08/05', '25/05', '05/06', '14/07', '15/08', '01/11', '11/11', '25/12'];
 
                     /*
                      * Si la date sélectionné dans le datepicker est celle d'aujourd'hui, que le type

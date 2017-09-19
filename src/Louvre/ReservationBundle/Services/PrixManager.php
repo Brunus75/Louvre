@@ -34,7 +34,7 @@ class PrixManager
         $today = new \Datetime();
         $today->format('d-m-Y');
 
-        // TAbleau contenant les différents clients
+        // Tableau contenant les différents clients
         $clients = $reservation->getClients();
 
         foreach($clients as $client) {
